@@ -23,6 +23,19 @@ build-options:
     CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
 
 modules:
+  # Spell-check backend used by the editor's source views. Not in the GNOME 50
+  # runtime, so we build it from source.
+  - name: libspelling
+    buildsystem: meson
+    config-opts:
+      - -Dvapi=false
+      - -Ddocs=false
+      - -Dintrospection=disabled
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/libspelling/-/archive/0.4.10/libspelling-0.4.10.tar.bz2
+        sha256: d6388f3dc207269743ec920b14bb3be55ab4bd97a18e167b52a09cec0554dc2b
+
   - name: manuscript
     buildsystem: simple
     build-options:
@@ -46,6 +59,6 @@ modules:
     sources:
       - type: git
         url: https://gitlab.com/ilshat-apps/manuscript.git
-        tag: v0.2.9
-        commit: e997fc356ab84b1c154623f9040c7f2347887d79
+        tag: v0.3.0
+        commit: 100e1d2fe64e3d5ba4312009f32b04d95a4e8b70
       - cargo-sources.json
