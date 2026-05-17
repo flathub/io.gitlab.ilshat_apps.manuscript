@@ -13,6 +13,10 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=ipc
+  # Network access for fetching remote images referenced as
+  # ![alt](https://…) — bytes are read via gio::File::load_bytes_async
+  # and decoded in-process, never written to disk.
+  - --share=network
   # GPU acceleration
   - --device=dri
 
@@ -59,6 +63,6 @@ modules:
     sources:
       - type: git
         url: https://gitlab.com/ilshat-apps/manuscript.git
-        tag: v1.1.0
-        commit: 9ff14f470e13a8fc5fcbd6b698450d7ffe8f7fcd
+        tag: v1.2.0
+        commit: 2b373047ce0afb55826b5f9f9f96f921128303dc
       - cargo-sources.json
