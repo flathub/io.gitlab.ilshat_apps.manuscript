@@ -7,7 +7,13 @@ sdk-extensions:
 command: manuscript
 
 finish-args:
-  # Access to Documents folder for opening and saving markdown files
+  # Read-only access to the user's home so local images referenced from
+  # a markdown file (e.g. `![alt](screenshots/light.png)`) resolve. The
+  # xdg-document-portal mount used when a file is opened via the file
+  # manager only exposes the single mounted file — sibling assets in
+  # the source directory are otherwise invisible to the sandbox.
+  - --filesystem=home:ro
+  # Writable access to the standard Documents location for save dialogs.
   - --filesystem=xdg-documents
   # Wayland & X11
   - --socket=wayland
@@ -40,6 +46,19 @@ modules:
         url: https://gitlab.gnome.org/GNOME/libspelling/-/archive/0.4.10/libspelling-0.4.10.tar.bz2
         sha256: d6388f3dc207269743ec920b14bb3be55ab4bd97a18e167b52a09cec0554dc2b
 
+  # Inter font (SIL OFL 1.1) — shipped so the app's default font_family: "Inter"
+  # resolves inside the sandbox instead of falling through to generic sans.
+  - name: inter-font
+    buildsystem: simple
+    build-commands:
+      - install -d /app/share/fonts
+      - cp InterVariable.ttf InterVariable-Italic.ttf /app/share/fonts/
+      - cp extras/ttf/Inter-*.ttf /app/share/fonts/
+    sources:
+      - type: archive
+        url: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
+        sha256: 9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e
+
   - name: manuscript
     buildsystem: simple
     build-options:
@@ -63,6 +82,6 @@ modules:
     sources:
       - type: git
         url: https://gitlab.com/ilshat-apps/manuscript.git
-        tag: v1.3.0
-        commit: c0199c8bd92d0d7cccff7b8bc60ae8fdcacdf046
+        tag: v1.4.0
+        commit: f6b436b1d1519a4a7157022904a571fb38be300b
       - cargo-sources.json
