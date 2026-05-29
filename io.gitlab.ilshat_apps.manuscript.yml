@@ -47,12 +47,13 @@ modules:
 
   # Inter font (SIL OFL 1.1) — shipped so the app's default font_family: "Inter"
   # resolves inside the sandbox instead of falling through to generic sans.
+  # The variable fonts cover every weight + slant via OpenType axes, so the
+  # static-weight ttf directory in the archive isn't needed.
   - name: inter-font
     buildsystem: simple
     build-commands:
       - install -d /app/share/fonts
       - cp InterVariable.ttf InterVariable-Italic.ttf /app/share/fonts/
-      - cp extras/ttf/Inter-*.ttf /app/share/fonts/
     sources:
       - type: archive
         url: https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
