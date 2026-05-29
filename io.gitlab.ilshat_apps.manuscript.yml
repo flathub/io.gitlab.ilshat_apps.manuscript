@@ -7,14 +7,13 @@ sdk-extensions:
 command: manuscript
 
 finish-args:
-  # Read-only access to the user's home so local images referenced from
-  # a markdown file (e.g. `![alt](screenshots/light.png)`) resolve. The
-  # xdg-document-portal mount used when a file is opened via the file
-  # manager only exposes the single mounted file — sibling assets in
-  # the source directory are otherwise invisible to the sandbox.
-  - --filesystem=home:ro
-  # Writable access to the standard Documents location for save dialogs.
+  # Access to Documents folder for opening and saving markdown files.
+  # Broader filesystem access (home:ro) is blocked by the Flathub linter
+  # — sibling images outside the xdg-document-portal mount remain
+  # inaccessible from the sandbox until a linter exception is granted.
+  # Tracked as a v1.5 follow-up.
   - --filesystem=xdg-documents
+  - --filesystem=xdg-pictures:ro
   # Wayland & X11
   - --socket=wayland
   - --socket=fallback-x11
