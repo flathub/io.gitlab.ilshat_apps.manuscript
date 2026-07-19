@@ -82,6 +82,6 @@ modules:
     sources:
       - type: git
         url: https://gitlab.com/ilshat-apps/manuscript.git
-        tag: v1.4.0
-        commit: f6b436b1d1519a4a7157022904a571fb38be300b
+        tag: v1.5.0
+        commit: ad2a4b32828e4f530ee0ff456a581bad94a5b5ce
       - cargo-sources.json
